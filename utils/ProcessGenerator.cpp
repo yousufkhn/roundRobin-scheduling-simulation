@@ -1,7 +1,8 @@
-#include <iostream>
 #include <vector>
-#include "../utils/Random.cpp"
-#include "../entities/Process.cpp"
+#include "./Random.cpp"
+#include "../entities/Process.h"
+
+using namespace std;
 
 std::vector<Process> randomProcessGenerator(int count)
 {

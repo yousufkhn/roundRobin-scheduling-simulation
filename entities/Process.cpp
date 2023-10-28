@@ -1,14 +1,6 @@
-#include <iostream>
+#include "Process.h"
 
-class Process
+Process::Process(int id, int arrivalTime, int burstTime)
+    : id(id), arrivalTime(arrivalTime), burstTime(burstTime)
 {
-public:
-    int id;
-    int arrivalTime;
-    int burstTime;
-
-    Process(int id, int arrivalTime, int burstTime)
-        : id(id), arrivalTime(arrivalTime), burstTime(burstTime)
-    {
-    }
-};
+}
