@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <vector>
 #include "../entities/Process.h"
+#include "ganttChartGenerator.cpp"
 
 using namespace std;
 
@@ -10,6 +11,7 @@ void roundRobinScheduler(vector<Process> &processes, int timeQuantum)
     queue<Process> readyQueue;
     int currentTime = 0;
     int remainingProcesses = processes.size();
+    int tabsCount = 0;
 
     // this sort function is sorting the processes vector according to their arrival time so that its
     // easier to impliment the round robin scheduling
@@ -36,6 +38,9 @@ void roundRobinScheduler(vector<Process> &processes, int timeQuantum)
             int executionTime = min(timeQuantum, currentProcess.burstTime);
             currentProcess.burstTime -= executionTime;
             currentTime += executionTime;
+            tabsCount += (executionTime + 8);
+
+            ganttChartGenerator(tabsCount, currentProcess.id, executionTime);
 
             if (currentProcess.burstTime > 0)
             {
@@ -45,16 +50,18 @@ void roundRobinScheduler(vector<Process> &processes, int timeQuantum)
             {
                 processes[processesIndexForTurnAroundTime].turnAroundTime = currentTime - processes[processesIndexForTurnAroundTime].arrivalTime;
                 processesIndexForTurnAroundTime++;
-                cout << "Task ID " << currentProcess.id << " has completed.\n";
+                // cout << string(tabsCount, ' ') << "Task " << currentProcess.id << " has completed.\n";
                 remainingProcesses--;
             }
         }
         else
         {
+            // cout << "| IDLE |" << endl;
             currentTime++;
         }
     }
-    cout << "Process ID\tWaiting Time\tTurn Around Time" << endl;
+
+    cout << "\nProcess ID\tWaiting Time\tTurn Around Time" << endl;
     for (const Process &process : processes)
     {
         cout << process.id << "\t\t" << process.waitingTime << "\t\t" << process.turnAroundTime << endl;
