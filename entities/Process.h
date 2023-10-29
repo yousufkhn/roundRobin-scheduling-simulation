@@ -7,8 +7,10 @@ public:
     int id;
     int arrivalTime;
     int burstTime;
+    int waitingTime;
+    int turnAroundTime;
 
-    Process(int id, int arrivalTime, int burstTime);
+    Process(int id, int arrivalTime, int burstTime, int waitingTime, int turnAroundTime);
 };
 
 #endif

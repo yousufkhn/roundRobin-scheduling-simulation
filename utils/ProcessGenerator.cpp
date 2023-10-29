@@ -12,7 +12,7 @@ std::vector<Process> randomProcessGenerator(int count)
         int arrivalTime = generateRandomArrivalTime();
         int burstTime = generateRandomBurstTime();
 
-        processes.push_back(Process(i, arrivalTime, burstTime));
+        processes.push_back(Process(i, arrivalTime, burstTime, 0, 0));
     }
     // for (const Process &process : processes)
     // {

@@ -16,13 +16,15 @@ void roundRobinScheduler(vector<Process> &processes, int timeQuantum)
     sort(processes.begin(), processes.end(), [](const Process &a, const Process &b)
          { return a.arrivalTime < b.arrivalTime; });
 
+    int processesIndex = 0;
     while (remainingProcesses > 0)
     {
         // Check for new arrivals and add them to the ready queue
-        while (!processes.empty() && processes.front().arrivalTime <= currentTime)
+        while (!processes.empty() && processes[processesIndex].arrivalTime <= currentTime)
         {
-            readyQueue.push(processes.front());
-            processes.erase(processes.begin());
+            readyQueue.push(processes[processesIndex]);
+            processes[processesIndex].waitingTime = currentTime - processes[processesIndex].arrivalTime;
+            processesIndex++;
         }
 
         if (!readyQueue.empty())
@@ -40,15 +42,18 @@ void roundRobinScheduler(vector<Process> &processes, int timeQuantum)
             }
             else
             {
-                // The process is complete
                 cout << "Task ID " << currentProcess.id << " has completed.\n";
                 remainingProcesses--;
             }
         }
         else
         {
-            // No processes are ready, idle time
             currentTime++;
         }
+    }
+    cout << "Process ID\tWaiting Time" << endl;
+    for (const Process &process : processes)
+    {
+        cout << process.id << "\t\t" << process.waitingTime << endl;
     }
 }
