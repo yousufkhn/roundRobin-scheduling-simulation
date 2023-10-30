@@ -4,10 +4,11 @@ This project is a simulation of the Round Robin scheduling algorithm, implemente
 
 ### Prerequisites
 
-Before you begin, ensure you have the following installed:
-
-- C++ Compiler (e.g., g++)
-- Git (for cloning the repository)
+> [!IMPORTANT]
+> Before you begin, ensure you have the following installed:
+>
+> - C++ Compiler (e.g., g++)
+> - Git (for cloning the repository)
 
 ## To run the program run this script from the 'src' directory :
 
