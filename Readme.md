@@ -15,3 +15,6 @@ To run the program run this script from the 'src' directory :
 g++ main.cpp ../entities/Process.cpp -o main
 ./main.exe
 ```
+
+##Gantt Chart Output
+![imageOfTheGanttChart](./assets//img//ganttChart.png)
