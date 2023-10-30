@@ -16,6 +16,10 @@ g++ main.cpp ../entities/Process.cpp -o main
 ./main.exe
 ```
 
+## Program Output
+
+![imageOfProgramOutput](./assets//img//output.png)
+
 ## Gantt Chart Output
 
 ![imageOfTheGanttChart](./assets//img//ganttChart.png)
