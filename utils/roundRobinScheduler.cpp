@@ -14,6 +14,8 @@ void roundRobinScheduler(vector<Process> &processes, int timeQuantum)
     int remainingProcesses = processes.size();
     int tabsCount = 0;
     string ganttChartGeneratorData;
+    double avgTurnaroundTime = 0.0;
+    double avgWaitingTime = 0.0;
 
     // this sort function is sorting the processes vector according to their arrival time so that its
     // easier to impliment the round robin scheduling
@@ -67,7 +69,13 @@ void roundRobinScheduler(vector<Process> &processes, int timeQuantum)
     for (const Process &process : processes)
     {
         cout << process.id << "\t\t" << process.waitingTime << "\t\t" << process.turnAroundTime << endl;
+        avgTurnaroundTime += process.turnAroundTime;
+        avgWaitingTime += process.waitingTime;
     }
+    avgTurnaroundTime /= processes.size();
+    avgWaitingTime /= processes.size();
+    cout << "Average Turnaround Time: " << avgTurnaroundTime << " units" << endl;
+    cout << "Average Waiting Time: " << avgWaitingTime << " units" << endl;
 
     ganttChartPrinter(ganttChartGeneratorData);
 }
