@@ -3,6 +3,7 @@
 #include <vector>
 #include "../entities/Process.h"
 #include "ganttChartGenerator.cpp"
+#include "ganttChartPrinter.cpp"
 
 using namespace std;
 
@@ -12,6 +13,7 @@ void roundRobinScheduler(vector<Process> &processes, int timeQuantum)
     int currentTime = 0;
     int remainingProcesses = processes.size();
     int tabsCount = 0;
+    string ganttChartGeneratorData;
 
     // this sort function is sorting the processes vector according to their arrival time so that its
     // easier to impliment the round robin scheduling
@@ -40,7 +42,7 @@ void roundRobinScheduler(vector<Process> &processes, int timeQuantum)
             currentTime += executionTime;
             tabsCount += (executionTime + 8);
 
-            ganttChartGenerator(tabsCount, currentProcess.id, executionTime);
+            ganttChartGeneratorData += ganttChartGenerator(tabsCount, currentProcess.id, executionTime);
 
             if (currentProcess.burstTime > 0)
             {
@@ -66,4 +68,6 @@ void roundRobinScheduler(vector<Process> &processes, int timeQuantum)
     {
         cout << process.id << "\t\t" << process.waitingTime << "\t\t" << process.turnAroundTime << endl;
     }
+
+    ganttChartPrinter(ganttChartGeneratorData);
 }

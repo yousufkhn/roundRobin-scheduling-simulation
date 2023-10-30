@@ -2,16 +2,25 @@
 #include <fstream>
 
 using namespace std;
-void ganttChartGenerator(int tabsCount, int id, int executionTime)
+string ganttChartGenerator(int tabsCount, int id, int executionTime)
 {
-    cout << "Task " << id;
+    string ganttChartGeneratorData;
+
+    // cout << "Task " << id;
+    ganttChartGeneratorData += "Task ";
+    ganttChartGeneratorData += to_string(id);
     for (int i = 0; i < executionTime; i++)
     {
-        cout << "-";
+        // cout << "-";
+        ganttChartGeneratorData += "-";
     }
-    cout << ">" << endl;
+    // cout << ">" << endl;
+    ganttChartGeneratorData += ">\n";
     for (int i = 0; i < tabsCount; i++)
     {
-        cout << " ";
+        // cout << " ";
+        ganttChartGeneratorData += " ";
     }
+
+    return ganttChartGeneratorData;
 }
