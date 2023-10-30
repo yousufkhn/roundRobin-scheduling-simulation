@@ -8,3 +8,10 @@ Before you begin, ensure you have the following installed:
 
 - C++ Compiler (e.g., g++)
 - Git (for cloning the repository)
+
+To run the program run this script from the 'src' directory :
+
+```
+g++ main.cpp ../entities/Process.cpp -o main
+./main.exe
+```

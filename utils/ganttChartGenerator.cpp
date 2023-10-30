@@ -1,9 +1,10 @@
 #include <iostream>
+#include <fstream>
 
 using namespace std;
 void ganttChartGenerator(int tabsCount, int id, int executionTime)
 {
-    cout << "Task " << id << "";
+    cout << "Task " << id;
     for (int i = 0; i < executionTime; i++)
     {
         cout << "-";
