@@ -4,6 +4,7 @@
 #include "../entities/Process.h"
 #include "ganttChartGenerator.cpp"
 #include "ganttChartPrinter.cpp"
+#include <map>
 
 using namespace std;
 
@@ -16,6 +17,7 @@ void roundRobinScheduler(vector<Process> &processes, int timeQuantum)
     string ganttChartGeneratorData;
     double avgTurnaroundTime = 0.0;
     double avgWaitingTime = 0.0;
+    map<int, int> tatMap;
 
     // this sort function is sorting the processes vector according to their arrival time so that its
     // easier to impliment the round robin scheduling
@@ -23,17 +25,8 @@ void roundRobinScheduler(vector<Process> &processes, int timeQuantum)
          { return a.arrivalTime < b.arrivalTime; });
 
     int processesIndex = 0;
-    int processesIndexForTurnAroundTime = 0;
     while (remainingProcesses > 0)
     {
-        // Check for new arrivals and add them to the ready queue
-        while (!processes.empty() && processes[processesIndex].arrivalTime <= currentTime)
-        {
-            readyQueue.push(processes[processesIndex]);
-            processes[processesIndex].waitingTime = currentTime - processes[processesIndex].arrivalTime;
-            processesIndex++;
-        }
-
         if (!readyQueue.empty())
         {
             Process currentProcess = readyQueue.front();
@@ -43,34 +36,42 @@ void roundRobinScheduler(vector<Process> &processes, int timeQuantum)
             currentProcess.burstTime -= executionTime;
             currentTime += executionTime;
             tabsCount += (executionTime + 8);
-
             ganttChartGeneratorData += ganttChartGenerator(tabsCount, currentProcess.id, executionTime);
 
+            if (currentProcess.burstTime == 0)
+            {
+                tatMap[currentProcess.id] = currentTime - currentProcess.arrivalTime;
+                remainingProcesses--;
+            }
+
+            while (processes[processesIndex].arrivalTime <= currentTime)
+            {
+                readyQueue.push(processes[processesIndex]);
+                processesIndex++;
+            }
             if (currentProcess.burstTime > 0)
             {
                 readyQueue.push(currentProcess);
-            }
-            else
-            {
-                processes[processesIndexForTurnAroundTime].turnAroundTime = currentTime - processes[processesIndexForTurnAroundTime].arrivalTime;
-                processesIndexForTurnAroundTime++;
-                // cout << string(tabsCount, ' ') << "Task " << currentProcess.id << " has completed.\n";
-                remainingProcesses--;
             }
         }
         else
         {
             // cout << "| IDLE |" << endl;
             currentTime++;
+            while (!processes.empty() && processes[processesIndex].arrivalTime <= currentTime)
+            {
+                readyQueue.push(processes[processesIndex]);
+                processesIndex++;
+            }
         }
     }
 
     cout << "\nProcess ID\tWaiting Time\tTurn Around Time" << endl;
     for (const Process &process : processes)
     {
-        cout << process.id << "\t\t" << process.waitingTime << "\t\t" << process.turnAroundTime << endl;
-        avgTurnaroundTime += process.turnAroundTime;
-        avgWaitingTime += process.waitingTime;
+        cout << process.id << "\t\t" << tatMap[process.id] - process.burstTime << "\t\t" << tatMap[process.id] << endl;
+        avgTurnaroundTime += tatMap[process.id];
+        avgWaitingTime += tatMap[process.id] - process.burstTime;
     }
     avgTurnaroundTime /= processes.size();
     avgWaitingTime /= processes.size();
