@@ -14,9 +14,6 @@ std::vector<Process> randomProcessGenerator(int count)
 
         processes.push_back(Process(i, arrivalTime, burstTime, 0, 0));
     }
-    // for (const Process &process : processes)
-    // {
-    //     cout << "Task Id: " << process.id << " Arrival Time: " << process.arrivalTime << " Burst Time: " << process.burstTime << "\n";
-    // }
+
     return processes;
 }
